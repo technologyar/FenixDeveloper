@@ -1,7 +1,15 @@
+import { auth } from "./firebase.js";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
 // ===== Splash (entrada) =====
 const splash = document.getElementById("splash");
-
-// Tiempo de splash (ms)
 const SPLASH_MS = 2200;
 
 window.addEventListener("load", () => {
@@ -23,47 +31,35 @@ function openMenu(){
   btnMenu.setAttribute("aria-expanded", "true");
   overlay.hidden = false;
 }
-
 function closeMenu(){
   sideMenu.classList.remove("is-open");
   sideMenu.setAttribute("aria-hidden", "true");
   btnMenu.setAttribute("aria-expanded", "false");
-
-  // SOLO ocultar overlay si el modal NO está abierto
   if (authModal.hidden === true) overlay.hidden = true;
 }
 
-// ====== MODAL REGISTRO (ENTRAR) ======
-const btnEnter = document.getElementById("btnEnter");      // <- botón Entrar (en el header)
-const authModal = document.getElementById("authModal");    // <- modal Regístrate (en el HTML)
-const btnCloseAuth = document.getElementById("btnCloseAuth"); // <- X cerrar
+// ====== MODAL AUTH ======
+const btnEnter = document.getElementById("btnEnter");
+const authModal = document.getElementById("authModal");
+const btnCloseAuth = document.getElementById("btnCloseAuth");
 
-
-// Asegurar que el modal inicie cerrado
 authModal.hidden = true;
 authModal.setAttribute("aria-hidden", "true");
-
 
 function openAuth(){
   authModal.hidden = false;
   authModal.setAttribute("aria-hidden", "false");
   overlay.hidden = false;
 }
-
 function closeAuth(){
   authModal.hidden = true;
   authModal.setAttribute("aria-hidden", "true");
-
-  // SOLO ocultar overlay si el menú lateral NO está abierto
   if (!sideMenu.classList.contains("is-open")) overlay.hidden = true;
 }
 
 // Eventos del menú
 btnMenu.addEventListener("click", openMenu);
 btnCloseMenu.addEventListener("click", closeMenu);
-
-// Evento del modal (click en Entrar)
-btnEnter.addEventListener("click", openAuth);
 btnCloseAuth.addEventListener("click", closeAuth);
 
 // Click fuera del cuadro cierra el modal
@@ -87,7 +83,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// ===== FAB (botón azul “...”) =====
+// ===== FAB =====
 const fab = document.getElementById("fab");
 const fabMenu = document.getElementById("fabMenu");
 
@@ -105,22 +101,7 @@ function toggleFab(){
   if (fabMenu.classList.contains("is-open")) closeFab();
   else openFab();
 }
-
 fab.addEventListener("click", toggleFab);
-
-// Demo: acciones
-fabMenu.addEventListener("click", (e) => {
-  const btn = e.target.closest("button");
-  if (!btn) return;
-
-  if (btn.classList.contains("phone")) alert("Teléfono: aquí va tu número");
-  if (btn.classList.contains("email")) alert("Email: aquí va tu correo");
-  if (btn.classList.contains("fb")) alert("Facebook: aquí va tu enlace");
-  if (btn.classList.contains("wa")) alert("WhatsApp: aquí va tu enlace wa.me");
-  if (btn.classList.contains("chat")) alert("Chat: aquí abres tu chat");
-
-  closeFab();
-});
 
 // ===== Carrito (demo) =====
 const btnAddCart = document.getElementById("btnAddCart");
@@ -137,16 +118,13 @@ const viewLogin = document.getElementById("viewLogin");
 const viewEmailLogin = document.getElementById("viewEmailLogin");
 
 function showView(which){
-  // ocultar todas
   viewRegister.hidden = true;
   viewLogin.hidden = true;
   viewEmailLogin.hidden = true;
-
-  // mostrar una
   which.hidden = false;
 }
 
-// Abrir modal desde "Entrar" -> muestra LOGIN (como Wix)
+// Abrir modal desde "Entrar" -> muestra LOGIN
 btnEnter.addEventListener("click", () => {
   showView(viewLogin);
   openAuth();
@@ -160,28 +138,67 @@ document.getElementById("goRegister2").addEventListener("click", (e)=>{ e.preven
 document.getElementById("btnEmailLogin").addEventListener("click", ()=> showView(viewEmailLogin));
 document.getElementById("backToLogin").addEventListener("click", ()=> showView(viewLogin));
 
-// ===== Botones: abrir Google/Facebook (DEMO) =====
-// Esto abre las páginas reales. Para que sea login real necesitas OAuth y hosting https.
-function popup(url){
-  window.open(url, "authPopup", "width=520,height=700");
-}
+// ===== Firebase AUTH real =====
 
-// Login
-document.getElementById("btnGoogleLogin").addEventListener("click", ()=> popup("https://accounts.google.com/"));
-document.getElementById("btnFacebookLogin").addEventListener("click", ()=> popup("https://www.facebook.com/login/"));
-document.getElementById("btnGoogleMini").addEventListener("click", ()=> popup("https://accounts.google.com/"));
-document.getElementById("btnFacebookMini").addEventListener("click", ()=> popup("https://www.facebook.com/login/"));
+// Google login (desde LOGIN)
+const googleProvider = new GoogleAuthProvider();
+document.getElementById("btnGoogleLogin").addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    alert("Bienvenido " + (result.user.displayName || result.user.email));
+    closeAuth();
+  } catch (e) {
+    alert(e.message);
+  }
+});
 
-// Register
-document.getElementById("btnGoogleRegister").addEventListener("click", ()=> popup("https://accounts.google.com/"));
-document.getElementById("btnFacebookRegister").addEventListener("click", ()=> popup("https://www.facebook.com/login/"));
-document.getElementById("btnEmailRegister").addEventListener("click", ()=> {
-  // de momento te muestro el formulario email (luego lo convertimos a registro)
+// Google register (desde REGISTER) -> igual, Google no “registra”, simplemente inicia sesión
+document.getElementById("btnGoogleRegister").addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    alert("Bienvenido " + (result.user.displayName || result.user.email));
+    closeAuth();
+  } catch (e) {
+    alert(e.message);
+  }
+});
+
+// Ir a formulario email desde REGISTER
+document.getElementById("btnEmailRegister").addEventListener("click", () => {
   showView(viewEmailLogin);
 });
 
-// Submit email (demo)
-document.getElementById("emailForm").addEventListener("submit", (e)=>{
+// Formulario email: LOGIN o REGISTER según lo que quieras
+// (Aquí haremos 2 botones si deseas: uno para iniciar y otro para registrarse)
+// Si tu HTML solo tiene 1 submit, por defecto lo usaré como LOGIN:
+const emailForm = document.getElementById("emailForm");
+emailForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  alert("Demo: aquí iría la validación real del email/contraseña.");
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  // INTENTO 1: iniciar sesión
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("Sesión iniciada ✅");
+    closeAuth();
+  } catch (errLogin) {
+    // INTENTO 2: si no existe, crear cuenta
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert("Cuenta creada ✅");
+      closeAuth();
+    } catch (errCreate) {
+      alert(errCreate.message);
+    }
+  }
+});
+
+// Cambiar texto del botón "Entrar" si hay usuario
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    btnEnter.innerHTML = `<i class="fa-regular fa-user"></i> <span class="only-desktop">${user.displayName || user.email}</span>`;
+  } else {
+    btnEnter.innerHTML = `<i class="fa-regular fa-user"></i> <span class="only-desktop">Entrar</span>`;
+  }
 });
