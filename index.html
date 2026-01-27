@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AR STORE</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Iconos -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- SPLASH / ENTRADA -->
+  <div id="splash" class="splash" aria-hidden="false">
+    <div class="splash__content">
+      <div class="splash__logo">
+        <div class="hoodie"></div>
+      </div>
+      <div class="splash__text">
+        <div class="splash__brand">AR STORE</div>
+        <div class="splash__tag">Soluciones tecnológicas a tu alcance</div>
+      </div>
+
+      <div class="splash__loader" role="status" aria-label="Cargando">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+<header class="topbar">
+  <!-- IZQUIERDA: botón menú (solo móvil) + logo -->
+  <div class="topbar__left">
+    <button id="btnMenu" class="icon-btn icon-btn--ghost only-mobile" aria-label="Abrir menú" aria-expanded="false">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="brand">
+      <div class="brand__icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+      <div class="brand__name">AR STORE</div>
+    </div>
+  </div>
+
+  <!-- CENTRO: menú horizontal (solo PC) -->
+  <nav class="topbar__nav only-desktop" aria-label="Navegación principal">
+    <a class="topbar__link" href="#productos">Productos</a>
+    <a class="topbar__link" href="#seguidores">Seguidores</a>
+    <a class="topbar__link" href="#contacto">Contáctanos</a>
+    <a class="topbar__link" href="#tienda">Tienda</a>
+  </nav>
+
+  <!-- DERECHA: entrar + carrito (PC y móvil) -->
+  <div class="topbar__actions">
+    <button id="btnEnter" class="topbar__enter" type="button" aria-label="Entrar">
+
+      <i class="fa-regular fa-user"></i>
+      <span class="only-desktop">Entrar</span>
+    </button>
+
+    <button id="btnCart" class="icon-btn cart" aria-label="Carrito">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span id="cartCount" class="cart__badge" aria-label="Artículos en carrito">1</span>
+    </button>
+  </div>
+</header>
+
+
+  <!-- PANEL LATERAL (MENÚ) -->
+  <aside id="sideMenu" class="side-menu" aria-hidden="true">
+    <div class="side-menu__header">
+      <div class="side-menu__title">
+        <i class="fa-regular fa-user"></i>
+        <span>Entrar</span>
+      </div>
+      <button id="btnCloseMenu" class="icon-btn" aria-label="Cerrar menú">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- SOLO lo de tu 2da imagen -->
+    <nav class="side-menu__nav">
+      <a class="side-menu__link is-active" href="#inicio">Inicio</a>
+      <a class="side-menu__link" href="#productos">Productos</a>
+      <a class="side-menu__link" href="#seguidores">Seguidores</a>
+      <a class="side-menu__link" href="#streaming">Plataformas de Streaming</a>
+      <a class="side-menu__link" href="#contacto">Contáctanos</a>
+      <a class="side-menu__link" href="#tienda">Tienda</a>
+    </nav>
+  </aside>
+
+  <!-- OVERLAY -->
+  <div id="overlay" class="overlay" hidden></div>
+
+  <!-- CONTENIDO -->
+  <main class="page" id="inicio">
+    <section class="hero">
+      <div class="hero__card">
+        <div class="hero__small">Soluciones tecnológicas a tu alcance</div>
+        <div class="hero__title">AR<br/>TECHNOLOGY</div>
+        <div class="hero__subtitle">Bienvenidos a:</div>
+        <button class="btn-primary">Comprar ahora</button>
+      </div>
+    </section>
+
+<section class="section" id="productos">
+  <h2>Productos</h2>
+
+  <div class="product">
+    <div class="product_img">
+      <div class="product_download btnAgregar"
+        data-id="tidal"
+        data-name="TIDAL"
+        data-price="12"
+        data-img="img/tidal.png">
+        <i class="fa-solid fa-download"></i>
+      </div>
+
+      <div class="product_fake">TIDAL</div>
+    </div>
+
+    <div class="product_name">TIDAL</div>
+    <div class="product_price">S/. 12.00</div>
+
+    <button class="btn-add btnAgregar"
+      data-id="tidal"
+      data-name="TIDAL"
+      data-price="12"
+      data-img="img/tidal.png">
+      Agregar
+    </button>
+  </div>
+</section>
+
+
+      
+    </section>
+
+    <section class="section" id="seguidores">
+      <h2>Seguidores</h2>
+      <p>Sección en construcción.</p>
+    </section>
+
+    <section class="section" id="streaming">
+      <h2>Plataformas de Streaming</h2>
+      <p>Sección en construcción.</p>
+    </section>
+
+    <section class="section" id="contacto">
+      <h2>Contáctanos</h2>
+      <p>Sección en construcción.</p>
+    </section>
+
+    <section class="section" id="tienda">
+      <h2>Tienda</h2>
+      <p>Sección en construcción.</p>
+    </section>
+  </main>
+
+  <!-- BOTÓN FLOTANTE "..." -->
+  <div class="fab-wrap">
+    <div id="fabMenu" class="fab-menu" aria-hidden="true">
+      <button class="fab-item phone" title="Teléfono">
+        <span class="fab-label">Teléfono</span>
+        <i class="fa-solid fa-phone"></i>
+      </button>
+
+      <button class="fab-item email" title="Email">
+        <span class="fab-label">Email</span>
+        <i class="fa-regular fa-envelope"></i>
+      </button>
+
+      <button class="fab-item fb" title="Facebook">
+        <span class="fab-label">Facebook</span>
+        <i class="fa-brands fa-facebook-f"></i>
+      </button>
+
+      <button class="fab-item wa" title="WhatsApp">
+        <span class="fab-label">WhatsApp</span>
+        <i class="fa-brands fa-whatsapp"></i>
+      </button>
+
+      <button class="fab-item chat" title="Chat">
+        <span class="fab-label">Chat</span>
+        <i class="fa-regular fa-comment"></i>
+      </button>
+    </div>
+
+    <button id="fab" class="fab" aria-label="Abrir accesos rápidos" aria-expanded="false">
+      <span class="fab__dots">•••</span>
+    </button>
+  </div>
+
+<!-- MODAL AUTH (Registro / Login) -->
+<div id="authModal" class="modal" hidden aria-hidden="true">
+  <div class="modal__card modal__card--wix" role="dialog" aria-modal="true" aria-label="Autenticación">
+    <button id="btnCloseAuth" class="modal__close modal__close--wix" aria-label="Cerrar">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <!-- ===== VISTA: REGISTRO ===== -->
+    <div id="viewRegister" class="auth-view">
+      <h3 class="auth-title">Regístrate</h3>
+      <p class="auth-sub">
+        ¿Ya tienes un perfil personal?
+        <a href="#" class="link" id="goLogin">Iniciar sesión</a>
+      </p>
+
+      <button class="btn-auth google" id="btnGoogleRegister">
+        <i class="fa-brands fa-google"></i>
+        Registrarse con Google
+      </button>
+
+      <button class="btn-auth facebook" id="btnFacebookRegister">
+        <i class="fa-brands fa-facebook-f"></i>
+        Registrarse con Facebook
+      </button>
+
+      <div class="divider"><span>o</span></div>
+
+      <button class="btn-auth email" id="btnEmailRegister">
+        <i class="fa-regular fa-envelope"></i>
+        Registrarse con un email
+      </button>
+    </div>
+
+    <!-- ===== VISTA: LOGIN SOCIAL ===== -->
+    <div id="viewLogin" class="auth-view" hidden>
+      <h3 class="auth-title">Iniciar sesión</h3>
+      <p class="auth-sub">
+        ¿Eres nuevo en este sitio?
+        <a href="#" class="link" id="goRegister">Regístrate</a>
+      </p>
+
+      <button class="btn-auth google" id="btnGoogleLogin">
+        <i class="fa-brands fa-google"></i>
+        Iniciar sesión con Google
+      </button>
+
+      <button class="btn-auth facebook" id="btnFacebookLogin">
+        <i class="fa-brands fa-facebook-f"></i>
+        Continuar con Facebook
+      </button>
+
+      <div class="divider"><span>o</span></div>
+
+      <button class="btn-auth email" id="btnEmailLogin">
+        <i class="fa-regular fa-envelope"></i>
+        Iniciar sesión con tu email
+      </button>
+    </div>
+
+    <!-- ===== VISTA: LOGIN EMAIL (como tu última imagen) ===== -->
+    <div id="viewEmailLogin" class="auth-view" hidden>
+      <h3 class="auth-title">Iniciar sesión</h3>
+      <p class="auth-sub">
+        ¿Eres nuevo en este sitio?
+        <a href="#" class="link" id="goRegister2">Regístrate</a>
+      </p>
+
+      <form class="email-form" id="emailForm">
+        <label class="field">
+          <span>Email</span>
+          <input type="email" required placeholder="tuemail@gmail.com">
+        </label>
+
+        <label class="field">
+          <span>Contraseña</span>
+          <input type="password" required placeholder="********">
+        </label>
+
+        <a class="forgot" href="#">¿Olvidaste la contraseña?</a>
+
+        <button type="submit" class="btn-purple">Iniciar sesión</button>
+
+        <div class="divider text"><span>o conéctate con</span></div>
+
+        <div class="social-mini">
+          <button type="button" class="mini google" id="btnGoogleMini" aria-label="Google"><i class="fa-brands fa-google"></i></button>
+          <button type="button" class="mini facebook" id="btnFacebookMini" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+        </div>
+      </form>
+
+      <button class="back" id="backToLogin"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+    </div>
+  </div>
+</div>
+
+<!-- ICONO CARRITO (arriba derecha) -->
+<button id="btnCarrito" class="btn-carrito" aria-label="Abrir carrito">
+  🛒
+  <span id="badgeCarrito" class="badge-carrito">0</span>
+</button>
+
+ 
+</script>
+
+
+  <script type="module" src="app.js"></script>
+
+
+<!-- FONDO OSCURO -->
+<div id="overlayCarrito" class="overlay-carrito hidden"></div>
+
+<!-- DRAWER / PANEL CARRITO -->
+<aside id="drawerCarrito" class="drawer-carrito hidden" aria-hidden="true">
+  <div class="drawer-header">
+    <h3>Carrito (<span id="itemsCount">0</span> ítems)</h3>
+    <button id="cerrarCarrito" class="btn-cerrar" aria-label="Cerrar">✕</button>
+  </div>
+
+  <div id="listaCarrito" class="drawer-body">
+    <!-- Aquí se renderiza con JS -->
+  </div>
+
+  <div class="drawer-footer">
+    <div class="total-row">
+      <span>Total estimado</span>
+      <strong id="totalCarrito">S/ 0.00</strong>
+    </div>
+
+    <button class="btn-finalizar">Finalizar compra</button>
+    <button class="btn-ver">Ver carrito</button>
+  </div>
+</aside>
+
+
+
+</body>
+</html>
