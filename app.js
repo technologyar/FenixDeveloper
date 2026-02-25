@@ -103,14 +103,15 @@ function toggleFab(){
 }
 fab.addEventListener("click", toggleFab);
 
-// ===== Carrito (demo) =====
 const btnAddCart = document.getElementById("btnAddCart");
-const cartCount = document.getElementById("cartCount");
+const cartItemsCount = document.getElementById("cartItemsCount");
 
-btnAddCart.addEventListener("click", () => {
-  const current = parseInt(cartCount.textContent || "0", 10);
-  cartCount.textContent = String(current + 1);
-});
+if (btnAddCart && cartItemsCount) {
+  btnAddCart.addEventListener("click", () => {
+    const current = parseInt(cartItemsCount.textContent || "0", 10);
+    cartItemsCount.textContent = String(current + 1);
+  });
+}
 
 // ===== Vistas del modal =====
 const viewRegister = document.getElementById("viewRegister");
@@ -379,3 +380,4 @@ document.addEventListener("click", (e) => {
 
   addToCart(product);
 });
+
